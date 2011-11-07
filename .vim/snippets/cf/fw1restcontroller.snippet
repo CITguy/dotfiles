@@ -1,0 +1,64 @@
+<!---
+	Subsystem:	${1:subsystem}
+	Section:		${2:section}
+--->
+<cfcomponent extends="${3:app}">
+	${4}
+	<cffunction name="default"
+		access="public" returntype="void" output="No"
+		hint=""
+	>
+		<cfargument name="rc" required="yes" type="struct">
+	</cffunction><!---end:default()--->
+
+	<cffunction name="new"
+		access="public" returntype="void" output="No"
+		hint=""
+	>
+		<cfargument name="rc" required="yes" type="struct">
+		<cfscript>
+			rc.form_action = "$1:$2.create";
+		</cfscript>
+	</cffunction><!---end:new()--->
+
+	<cffunction name="edit"
+		access="public" returntype="void" output="No"
+		hint=""
+	>
+		<cfargument name="rc" required="yes" type="struct">
+		<cfscript>
+			rc.form_action = "$1:$2.update";
+		</cfscript>
+	</cffunction><!---end:edit()--->
+
+	<cffunction name="create"
+		access="public" returntype="void" output="No"
+		hint=""
+	>
+		<cfargument name="rc" required="yes" type="struct">
+		<cfscript>
+		</cfscript>
+		<cfset redirect_to("$1:$2.edit")>
+	</cffunction><!---end:create()--->
+
+	<cffunction name="update"
+		access="public" returntype="void" output="No"
+		hint=""
+	>
+		<cfargument name="rc" required="yes" type="struct">
+		<cfscript>
+		</cfscript>
+		<cfset redirect_to("$1:$2.edit")>
+	</cffunction><!---end:update()--->
+
+	<cffunction name="delete"
+		access="public" returntype="void" output="No"
+		hint=""
+	>
+		<cfargument name="rc" required="yes" type="struct">
+		<cfscript>
+			fw.addNotice("$1:$2 deletion has been disabled");
+			redirect_to("$1:$2");
+		</cfscript>
+	</cffunction><!---end:delete()--->
+</cfcomponent>
