@@ -1,0 +1,7 @@
+#1: Getting Dropbox/Chrome to open directories/files correctly
+  Solution:
+    export DE=xfce in ~/.xinitrc
+
+#2: No route/ifconfig
+  Solution:
+    install net-tools package
