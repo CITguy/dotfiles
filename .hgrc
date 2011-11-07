@@ -1,1 +1,29 @@
-Dropbox/.hgrc
+[extensions]
+hgext.convert = 
+color =
+graphlog =
+rebase =
+#inotify =
+
+[ui]
+username = Ryan Johnson <rhino.citguy@gmail.com>
+merge = meld
+editor = vim
+
+[web]
+style = gitweb
+
+
+[alias]
+slog = log --style=$HG_CLI_TMP_PATH/map-cmdline.slog -l10
+nlog = log --style=$HG_CLI_TMP_PATH/map-cmdline.nlog -l4
+sglog = glog --style=$HG_CLI_TMP_PATH/map-cmdline.sglog -l10
+tlog = log --style=$HG_CLI_TMP_PATH/map-cmdline.slog
+, = sglog
+,+ = , -l1000000000
+cm = commit --message
+up = update --check
+get = pull -u
+pu = pull -u
+. = status
+undo = revert --no-backup

@@ -1,1 +1,9 @@
-Dropbox/.ackrc
+# All file types
+-a
+
+# Always color, even if piping to another program
+--color
+
+
+#Additional types
+--type-set=swp=.swp

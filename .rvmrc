@@ -1,1 +1,2 @@
-Dropbox/.rvmrc
+export rvm_path="/home/ryan/.rvm"
+export rvm_pretty_print_flag=1
