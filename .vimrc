@@ -52,7 +52,7 @@ if has("autocmd")
   augroup vimrcEx
   au!
 
-  " For all text files set 'textwidth' to 78 characters.
+  " For all text files set 'textwidth' to 80 characters.
   autocmd FileType text setlocal textwidth=80
 
   " When editing a file, always jump to the last known cursor position.
@@ -83,7 +83,7 @@ set number " Show the line number for each line
 set ts=2 " Set Tab stop width (2 spaces per tab) 
 set sw=2 " Set shift width (2 spaces)
 set so=4 " Set scrolloff (number of lines to show around the cursor)
-set siso=4  " Set site scrolloff, similar to scrolloff but horizontal
+set siso=4  " Set side scrolloff, similar to scrolloff but horizontal
 set ch=1 " Set cmdheight lines
 set noautoindent smartindent
 set expandtab
@@ -100,19 +100,14 @@ set mmt=2000000 " No limit on total memory usage
 "set shm=aToO " Shortmess info, see :shortmess
 "set list
 
-" Use CTRL-S for saving, also in Insert Mode
-noremap <C-S>   :update<CR>
-vnoremap <C-S>  <C-C>:update<CR>
-inoremap <C-S>  <C-O:update<CR>
-
 noremap <C-K> :nohls<CR>
 
 " folding settings
 set foldmethod=indent " fold based on indent
-set foldcolumn=0      " No foldcolumn
-"set foldnestmax=9     " deepest fold is 10 levels
-set foldlevel=20       " keep ALL folds open on file open (must be GTE than foldnestmax)
-set foldenable        " Enable Folding 
+set foldcolumn=0 " No foldcolumn
+"set foldnestmax=9 " deepest fold is 10 levels
+set foldlevel=20 " keep ALL folds open on file open (must be GTE than foldnestmax)
+set foldenable " Enable Folding 
 
 " colors for autocomplete drop down menu
 highlight Pmenu ctermfg=1 ctermbg=4 guibg=grey30
@@ -128,6 +123,9 @@ map <C>- zm
 map <C>+ zr 
 
 colorscheme tir_black 
+
+highlight OverLength ctermfg=darkred guibg=#592929
+match OverLength /\%81v.\+/
 
 " This is so snipMate works
 :filetype plugin on

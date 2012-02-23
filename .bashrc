@@ -13,7 +13,7 @@
 #  #ssh-agent $SHELL
 #fi
 
-archbey -c green
+archbey -c black
 
 
 if [[ -n "$PS1" ]] ; then
@@ -81,9 +81,9 @@ if [[ -n "$PS1" ]] ; then
   if [ -x /usr/bin/dircolors ]; then
       test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
       alias ls='ls --color=auto'
-      alias grep='grep --color=auto'
-      alias fgrep='fgrep --color=auto'
-      alias egrep='egrep --color=auto'
+      alias grep='grep --color=auto -B1'
+      alias fgrep='fgrep --color=auto -B1'
+      alias egrep='egrep --color=auto -B1'
   fi
 
   # enable programmable completion features (you don't need to enable
@@ -98,6 +98,11 @@ if [[ -n "$PS1" ]] ; then
   ################################################################################ 
   export PATH=$PATH:/home/ryan/BIN:/home/ryan/bin
   export HG_CLI_TMP_PATH=/home/ryan/LIB/config/mercurial-cli-templates
+  export ANT_HOME=/home/ryan/BIN/sit/tools/ant
+  export JAVA_HOME=/opt/java
+  export PATH=$ANT_HOME/bin:$JAVA_HOME/bin:$PATH
+
+  export WSFC_HOME=/opt/wsf/c
 
   txtrst="\[\e[0m\]"
 
@@ -118,7 +123,7 @@ if [[ -n "$PS1" ]] ; then
   alias nautilus='nautilus --no-desktop'
   alias :q='exit'
   alias open='xdg-open'
-  alias pacman='pacman-color'
+  #alias pacman='pacman-color'
 
   # Load Special Bash Prompt
   if [ -f "$HOME/.bash_ps1" ]; then
@@ -215,4 +220,11 @@ function sync_intel_with_ticket() {
   echo -e "\n"
 }
 #sync_intel_with_ticket
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+function re_source() {
+  source /home/ryan/.bashrc
+}
+
+function make_private() {
+  chmod 700 $1
+}

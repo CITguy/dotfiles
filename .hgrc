@@ -13,6 +13,8 @@ editor = vim
 [web]
 style = gitweb
 
+[diff]
+unified = 2
 
 [alias]
 slog = log --style=$HG_CLI_TMP_PATH/map-cmdline.slog -l10
