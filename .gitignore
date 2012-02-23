@@ -104,6 +104,7 @@ www
 .thunderbird*
 .tilda*
 .videogen
+.vim/.netrwhist
 .viminfo
 .wireshark
 .xaralx
