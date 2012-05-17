@@ -96,10 +96,11 @@ if [[ -n "$PS1" ]] ; then
   ################################################################################ 
   ## YOUR CUSTOM SETTINGS
   ################################################################################ 
-  export PATH=$PATH:/home/ryan/BIN:/home/ryan/bin
-  export HG_CLI_TMP_PATH=/home/ryan/LIB/config/mercurial-cli-templates
-  export ANT_HOME=/home/ryan/BIN/sit/tools/ant
+  export PATH=$PATH:$HOME/BIN:$HOME/bin
+  export HG_CLI_TMP_PATH=$HOME/LIB/config/mercurial-cli-templates
+  export ANT_HOME=$HOME/BIN/sit/tools/ant
   export JAVA_HOME=/opt/java
+
   export PATH=$ANT_HOME/bin:$JAVA_HOME/bin:$PATH
 
   export WSFC_HOME=/opt/wsf/c
@@ -131,7 +132,12 @@ if [[ -n "$PS1" ]] ; then
   fi
 fi
 
-[[ -s "/home/ryan/.rvm/scripts/rvm" ]] && source "/home/ryan/.rvm/scripts/rvm"  # This loads RVM into a shell session
+#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"  # This loads RVM into a shell session
+
+# RVM bash completion
+[[ -r "$HOME/.rvm/scripts/completion" ]] && source "$HOME/.rvm/scripts/completion"
+
 
 function cfctl() {
   case $1 in
@@ -155,27 +161,19 @@ function cfctl() {
 }
 #end:cfctl()
 
-function cfdo() {
-  sudo /opt/coldfusion9/bin/coldfusion $1
+function cfdo() { 
+  sudo /opt/coldfusion9/bin/coldfusion $1 
 }
 
 function apachedo() {
-  # Ubuntu
-  #sudo /etc/init.d/apache2 $1
-  # Arch
-  sudo /etc/rc.d/httpd $1
+  #sudo /etc/rc.d/httpd $1
+  sudo rc.d $1 httpd
 }
 #end:apachedo()
 
-function regnomedo() {
-  killall gnome-do
-  gnome-do &> /dev/null
-}
-#end:regnomedo()
-
 function mysqldo() {
-  # Arch
-  sudo /etc/rc.d/mysqld $1
+  #sudo /etc/rc.d/mysqld $1
+  sudo rc.d $1 mysqld
 }
 #end:mysqldo()
 
@@ -210,21 +208,54 @@ function runIntelFeed() {
 }
 #end:runIntelFeed()
 
-function gemset() {
-  rvm gemset use $1
-}
-#end: gemset
-
 function sync_intel_with_ticket() {
   curl -X POST https://solutions.bluefishwireless.net/intel/update_tickets/crm_sync -d p=blu3fiSh -d ticket_number=$1
   echo -e "\n"
 }
 #sync_intel_with_ticket
 
-function re_source() {
-  source /home/ryan/.bashrc
+function re_source() { 
+  source $HOME/.bashrc 
 }
 
-function make_private() {
-  chmod 700 $1
+function long_msg() {
+  echo -e "
+    Dictumst placerat, amet. In et montes augue nisi etiam porta, montes egestas, 
+    tincidunt lectus augue nisi cursus nunc! Sit augue, mauris pellentesque, placerat cursus, 
+    massa duis dignissim integer, nunc? Nunc augue duis tincidunt porta. Ultrices montes diam 
+    pulvinar montes et lectus, nec pulvinar sociis integer habitasse ac adipiscing ultricies 
+    adipiscing odio sagittis mauris magna cras eros aliquet tincidunt aliquet scelerisque, 
+    tempor a enim placerat scelerisque est! Purus cras! Placerat! Nec, amet, sociis, parturient 
+    elementum tristique lacus placerat lacus tincidunt duis! Urna, lundium nunc nisi in 
+    ultrices, turpis placerat. Ac porttitor a ultrices tristique aliquam cursus! Porttitor 
+    facilisis et urna! Lorem integer a, non sociis pid, elementum. Elementum in a ac eu vel 
+    scelerisque porttitor hac egestas nisi pulvinar lorem sagittis."
+  echo "script: $0"
+}
+
+function flush_dns() { 
+  sudo nscd -i hosts 
+}
+
+
+function unicornify() {
+  unicorn_dir=$HOME/www/unicorn
+  proj_dir=/srv/http/$1
+  # Check for required directories
+  if [ -d $proj_dir ] && [ -d "$proj_dir/config" ]; 
+  then
+    # ensure start_unicorn script exists
+    sudo ln -sf $unicorn_dir/start_unicorn $proj_dir
+
+    # ensure unicorn configuration exists
+    sudo ln -sf $unicorn_dir/config/unicorn.rb $proj_dir/config
+
+    # Restart ensures that previous unicorns are put down before
+    # making new ones
+    sudo /etc/rc.d/unicorn $1 restart
+
+    sudo /etc/rc.d/nginx restart
+  else
+    echo "project NOT qualified"
+  fi
 }
