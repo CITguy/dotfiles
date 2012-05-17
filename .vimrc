@@ -69,12 +69,12 @@ else
   set autoindent    " always set autoindenting on
 endif " has("autocmd")
 
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
-endif
+"" Convenient command to see the difference between the current buffer and the
+"" file it was loaded from, thus the changes you made.
+"" Only define it when not defined already.
+"if !exists(":DiffOrig")
+"  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+"endif
 
 set t_Co=256 " use 256 color in terminal 
 :helptags ~/.vim/doc " include docs in home directory
@@ -105,12 +105,12 @@ noremap <C-K> :nohls<CR>
 " folding settings
 set foldmethod=indent " fold based on indent
 set foldcolumn=0 " No foldcolumn
-"set foldnestmax=9 " deepest fold is 10 levels
-set foldlevel=20 " keep ALL folds open on file open (must be GTE than foldnestmax)
+set foldnestmax=30 " deepest fold is 10 levels
+set foldlevel=10 " keep ALL folds open on file open (must be GTE than foldnestmax)
 set foldenable " Enable Folding 
 
-" colors for autocomplete drop down menu
-highlight Pmenu ctermfg=1 ctermbg=4 guibg=grey30
+"" colors for autocomplete drop down menu
+"highlight Pmenu ctermfg=1 ctermbg=4 guibg=grey30
 
 map <S-Insert> "+gP
 
@@ -119,13 +119,22 @@ map <C-Down> <C-W><Down>
 map <C-Up> <C-W><Up>
 map <C-Left> <C-W><Left>
 map <C-Right> <C-W><Right>
-map <C>- zm
-map <C>+ zr 
+"Collapse ALL folds
+"map <C>- zm
+"Expand ALL folds
+"map <C>+ zr 
 
 colorscheme tir_black 
 
-highlight OverLength ctermfg=darkred guibg=#592929
-match OverLength /\%81v.\+/
-
 " This is so snipMate works
-:filetype plugin on
+":filetype plugin on
+
+"highlight OverLength ctermfg=darkred guibg=#592929
+"match OverLength /\%81v.\+/
+
+" This is to limit the syntax-highlighting to the first 120 columns
+" Useful for files with very long lines
+"set synmaxcol=120
+
+" Seems to help when trying to edit file with deep folds
+set lazyredraw

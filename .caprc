@@ -1,0 +1,8 @@
+require 'capistrano_colors'
+
+capistrano_color_matchers = [
+  { :match => /servers/, :color => :magenta, :attribute => :dim, :prio => 0},
+  { :match => /command finished in/, :color => :black, :attribute => :bright, :prio => 1 }
+]
+
+colorize( capistrano_color_matchers )

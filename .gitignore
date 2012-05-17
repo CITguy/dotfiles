@@ -1,3 +1,5 @@
+scratch
+
 BIN
 Desktop
 Documents
@@ -6,8 +8,10 @@ Downloads
 Dropbox
 gtk-3.0
 ISO
+info/
 IDEAS
 Music
+My\ *
 Pictures
 public_html
 Reference
@@ -62,7 +66,7 @@ www
 .galculator
 .gconfd
 .gem
-.gimp-2.6
+.gimp*
 .gitconfig
 .gitk
 .gksu.lock
@@ -98,6 +102,7 @@ www
 .rvm
 .screenlayout
 .ssh*
+.subversion*
 .teamviewer
 .teeworlds*
 .themes*

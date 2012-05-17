@@ -1,21 +1,6 @@
 require 'rubygems'
 
-class String
-  def bitsize; return (self.bytesize * 8); end;
-  def octetsize; return self.bytesize; end;
-end
-
-begin
-  require 'progressbar'
-rescue LoadError => e
-  puts "progressbar gem not found. Try typing 'gem install progressbar' to get super-fancy output"
-end
-
-#begin
-#  require 'libxml'
-#rescue LoadError => e
-#  puts "libxml-ruby gem not found."
-#end
+Dir["/home/ryan/BIN/rb/irb_helpers/*.rb"].each{ |helper| require helper }
 
 begin
   require "ap"
@@ -27,3 +12,4 @@ begin
 rescue LoadError => e
   puts "ap gem not found.  Try typing 'gem install awesome_print' to get super-fancy output."
 end
+
