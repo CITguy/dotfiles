@@ -1,0 +1,7 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_1='/home/ryan/www/dojo/config'
+let g:netrw_dirhist_2='/home/ryan/www/dojo/lib/service/sprint'
+let g:netrw_dirhist_3='/home/ryan/www/core/app/views'
+let g:netrw_dirhist_4='/home/ryan/www/vault/config'
+let g:netrw_dirhist_5='/home/ryan/www/vault/lib'

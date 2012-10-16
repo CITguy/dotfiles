@@ -1,0 +1,151 @@
+#require 'autotest/fsevent'
+require 'autotest/restart'
+#require 'autotest/timestamp'
+
+
+# Run on initialization of autotest
+# (typically once per autotest execution)
+Autotest.add_hook :initialize do |at|
+  banner(
+    :char => "-",
+    :title => " INITIALIZING ", 
+    :title_color => "bright_yellow", 
+    :color => "bright_white"
+  )
+  puts
+end
+
+# Ran immediately before running command
+Autotest.add_hook :run_command do
+  @@test_start = Time.now
+  banner(:char => "-", :title => " RUNNING TESTS ", :color => "bright_white", :title_color => "bright_white")
+end
+
+# Ran immediately after running command
+Autotest.add_hook :ran_command do |at|
+  total_duration = Time.now - @@test_start
+  tot_dur = sprintf("%10.5f", total_duration)
+
+  banner(:char => "-", :title => " SUMMARY ", :color => "bright_white", :title_color => "bright_white")
+
+  # Attempt to determine Test Duration
+  begin
+    split_results = case at.results
+    when Array
+      at.results
+    else
+      at.results.split("\n").flatten
+    end
+    unless split_results.nil?
+      finished_string = split_results.select {|l| l if l =~ /^(finished).*(seconds)/i }.first
+
+      test_duration = finished_string.scan(/\d+\.?\d*/).first.to_f
+      spinup_duration = total_duration - test_duration
+
+      tst_dur = sprintf("%10.5f", test_duration)
+      spinup_dur = sprintf("%10.5f", spinup_duration)
+
+      puts "  Load: #{spinup_dur} seconds"
+      puts "  Test: #{tst_dur} seconds"
+    end
+  rescue Exception => e
+    puts e.message
+  end
+
+  puts " #{color_code('bright_yellow')}TOTAL: #{tot_dur} seconds\e[0m"
+  banner(:color => "bright_white", :char => "-")
+end#:ran_command
+
+Autotest.add_hook :waiting do
+  banner(:title => " waiting ", :char => ".", :color=> "bright_black", :size => 80, :title_color => "bright_black")
+end
+
+Autotest.add_hook :died do
+  banner( :color => "bright_red", :char => "!")
+  banner(:title => " AUTOTEST DERPED ", :title_color => "bright_yellow")
+  banner( :color => "bright_red", :char => "!")
+end
+
+
+# Run after initialization of autotest
+# (typically once per autotest execution)
+#Autotest.add_hook :post_initialize do
+#end
+
+# Run prior to testing
+#Autotest.add_hook :reset do
+#end
+
+# Ran when CTRL-C sent (only while waiting, though)
+#Autotest.add_hook :interrupt do
+#end
+
+#Autotest.add_hook :all_good do
+#end
+
+#Autotest.add_hook :quit do
+#end
+
+
+################################################################################
+## CONVENIENCE METHODS
+################################################################################
+
+def banner(options={})
+  size = options.fetch(:size, 60)
+  char = options.fetch(:char, " ")
+  title = options.fetch(:title, "")
+  color = color_code(options.fetch(:color, ""))
+  title_color = color_code(options.fetch(:title_color, ""))
+
+  trail_size = 5
+  if title == ""
+    padding = 0
+    title_box = ""
+  else
+    padding = 0
+    title_box = "#{title_color + title + color}"
+  end
+
+  lead_size = size - title.size - trail_size - padding
+
+  puts color + (char*lead_size) + title_box + (char*trail_size) + "\e[0m"
+end
+
+def color_code(color="")
+  return case color
+  when "black"  then "\e[0;30m"
+  when "red"    then "\e[0;31m"
+  when "green"  then "\e[0;32m"
+  when "yellow" then "\e[0;33m"
+  when "blue"   then "\e[0;34m"
+  when "purple" then "\e[0;35m"
+  when "cyan"   then "\e[0;36m"
+  when "white"  then "\e[0;37m"
+  when "bright_black"  then "\e[0;90m"
+  when "bright_red"    then "\e[0;91m"
+  when "bright_green"  then "\e[0;92m"
+  when "bright_yellow" then "\e[0;93m"
+  when "bright_blue"   then "\e[0;94m"
+  when "bright_purple" then "\e[0;95m"
+  when "bright_cyan"   then "\e[0;96m"
+  when "bright_white"  then "\e[0;97m"
+  when "bold_black"  then "\e[1;30m"
+  when "bold_red"    then "\e[1;31m"
+  when "bold_green"  then "\e[1;32m"
+  when "bold_yellow" then "\e[1;33m"
+  when "bold_blue"   then "\e[1;34m"
+  when "bold_purple" then "\e[1;35m"
+  when "bold_cyan"   then "\e[1;36m"
+  when "bold_white"  then "\e[1;37m"
+  when "underlined_black"  then "\e[4;30m"
+  when "underlined_red"    then "\e[4;31m"
+  when "underlined_green"  then "\e[4;32m"
+  when "underlined_yellow" then "\e[4;33m"
+  when "underlined_blue"   then "\e[4;34m"
+  when "underlined_purple" then "\e[4;35m"
+  when "underlined_cyan"   then "\e[4;36m"
+  when "underlined_white"  then "\e[4;37m"
+  else "\e[0m"
+  end
+end

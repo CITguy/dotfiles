@@ -1,12 +1,9 @@
-------------------------------------------------------------------------
-Use this to test fonts.
-------------------------------------------------------------------------
-
 the quick brown fox jumps over the lazy dog
-
 THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
+`1234567890-=[]\\;',./~!@#$%^&*()_+{}|:"<>?
 
-`1234567890-=
-~!@#$%^&*()_+
+<ns:foo xmlns:foo="http://www.google.com/" bar="biz">bang</ns:foo>
 
-[]{}\|;:'",<.>/?
+def something(this="that")
+	puts "This is something"
+end

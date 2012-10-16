@@ -51,4 +51,3 @@ lua_load ~/scripts/rings_8core1.lua
 lua_draw_hook_pre ring_stats
 
 TEXT
- 

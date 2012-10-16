@@ -5,3 +5,8 @@
 #2: No route/ifconfig
   Solution:
     install net-tools package
+
+#3: Permanently map Caps Lock to Escape
+  Solution:
+    edit /etc/rc.local and add the following:
+      echo keycode 58 = Escape | sudo loadkeys -

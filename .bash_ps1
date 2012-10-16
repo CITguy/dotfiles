@@ -1,6 +1,6 @@
 # Fill with minuses
 # (this is recalculated every time the prompt is shown in function prompt_command):
-fill="--- "
+fill="=== "
 reset_style='\[\033[00m\]'
 
 status_style=$reset_style'\[\033[0;90m\]' # gray color; use 0;37m for lighter color
@@ -14,7 +14,7 @@ function prompt_command() {
   fill=""
   while [ "$fillsize" -gt "0" ]
   do
-    fill="-${fill}" # fill with underscores to work on
+    fill="=${fill}" # fill with underscores to work on
     let fillsize=${fillsize}-1
   done
 

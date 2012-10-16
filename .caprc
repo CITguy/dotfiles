@@ -1,0 +1,15 @@
+require 'capistrano_colors'
+
+capistrano_color_matchers = [
+  { :match => /servers/, :color => :magenta, :attribute => :dim, :prio => 1},
+  { :match => /command finished in/, :color => :black, :attribute => :bright, :prio => 2 },
+  # Server Output Colors
+  { :match => /wario/,    :color => :yellow,  :attribute => :bright,  :prio => 0},
+  { :match => /alfred/,   :color => :white,   :attribute => :bright,  :prio => 0},
+  { :match => /sonic/,    :color => :blue,    :attribute => :normal,  :prio => 0},
+  { :match => /knuckles/, :color => :red,     :attribute => :normal,  :prio => 0},
+  { :match => /mario/,    :color => :red,     :attribute => :bright,  :prio => 0},
+  { :match => /luigi/,    :color => :green,   :attribute => :dim,     :prio => 0}
+]
+
+colorize( capistrano_color_matchers )
