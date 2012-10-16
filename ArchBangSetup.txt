@@ -3,6 +3,8 @@
     export DE=xfce in ~/.xinitrc
 
 #2: No route/ifconfig
+  packages:
+    net-tools
   Solution:
     install net-tools package
 
@@ -10,3 +12,28 @@
   Solution:
     edit /etc/rc.local and add the following:
       echo keycode 58 = Escape | sudo loadkeys -
+
+#4: Installing RVM
+  packages:
+    gcc patch curl zlib readline libxml2 libxslt git autoconf automake diffutils
+    make libtool bison subversion gcc43
+
+  - Ruby 1.8.7
+    CC=/usr/bin/gcc-4.3 rvm install 1.8.7
+
+#5: Nginx with unicorn
+  packages:
+    nginx php-fpm
+
+  nginx:
+    http.server.root = /srv/http
+
+    # As per instruction on archlinux wiki
+    location ~ \.php$ {
+        try_files $uri =404;
+        #root           html; #inherited from server-block
+        fastcgi_pass   unix:/var/run/php-fpm/php-fpm.sock;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include        fastcgi_params;
+    }

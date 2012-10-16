@@ -5,5 +5,5 @@ THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
 <ns:foo xmlns:foo="http://www.google.com/" bar="biz">bang</ns:foo>
 
 def something(this="that")
-	puts "This is something"
+  puts "This is something"
 end

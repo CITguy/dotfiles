@@ -90,10 +90,9 @@ if [[ -n "$PS1" ]] ; then
   ################################################################################
   export PATH=$PATH:$HOME/BIN:$HOME/bin
   export HG_CLI_TMP_PATH=$HOME/LIB/config/mercurial-cli-templates
-  #export ANT_HOME=$HOME/BIN/sit/tools/ant
+  export ANT_HOME=$HOME/BIN/sit/tools/ant
   export JAVA_HOME=/opt/java
-  #export PATH=$ANT_HOME/bin:$JAVA_HOME/bin:$PATH
-  export PATH=$JAVA_HOME/bin:$PATH
+  export PATH=$ANT_HOME/bin:$JAVA_HOME/bin:$PATH
   export EDITOR="vim"
   export WSFC_HOME=/opt/wsf/c
 
