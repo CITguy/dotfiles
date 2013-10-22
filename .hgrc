@@ -1,8 +1,11 @@
 [extensions]
-hgext.convert = 
+hgext.convert =
+hgext.bookmarks =
 color =
 graphlog =
 rebase =
+hgview =
+hggit =
 #inotify =
 
 [ui]

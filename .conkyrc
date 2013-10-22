@@ -28,7 +28,7 @@ minimum_size 560 560
 maximum_width 560
 
 alignment tl
-gap_x 0 
+gap_x 0
 gap_y 0
 
 # — Graphics settings — #
@@ -47,7 +47,7 @@ uppercase no
 default_color FFFFFF
 
 # — Lua Load — #
-lua_load ~/scripts/rings_8core1.lua
+lua_load /home/ryan/scripts/rings_8core1.lua
 lua_draw_hook_pre ring_stats
 
 TEXT

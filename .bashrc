@@ -6,7 +6,12 @@
 [[ -z "$PS1" ]] && return
 
 # remap capslock to ESC
-setxkbmap -option caps:escape &
+#setxkbmap -option caps:escape &
+
+# Add additional functions (if file exists)
+[[ -e "${HOME}/.bash_functions" ]] && source "${HOME}/.bash_functions"
+
+[[ -e "${HOME}/.bash_colors" ]] && source "${HOME}/.bash_colors"
 
 if [[ -n "$PS1" ]] ; then
   # don't put duplicate lines in the history. See bash(1) for more options
@@ -73,9 +78,9 @@ if [[ -n "$PS1" ]] ; then
   if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    alias grep='grep --color=auto -B1'
-    alias fgrep='fgrep --color=auto -B1'
-    alias egrep='egrep --color=auto -B1'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
   fi
 
   # enable programmable completion features (you don't need to enable
@@ -91,13 +96,21 @@ if [[ -n "$PS1" ]] ; then
   export PATH=$PATH:$HOME/BIN:$HOME/bin
   export HG_CLI_TMP_PATH=$HOME/LIB/config/mercurial-cli-templates
   export ANT_HOME=$HOME/BIN/sit/tools/ant
-  export JAVA_HOME=/opt/java
   export PATH=$ANT_HOME/bin:$JAVA_HOME/bin:$PATH
   export EDITOR="vim"
-  export WSFC_HOME=/opt/wsf/c
 
-  txtrst="\[\e[0m\]"
-  PS1="${txtrst}\[\e[7m\][\u@\h:\w]\$${txtrst} "
+  ### OVERLY COMPLICATED BASH PROMPT
+  blk="\342\226\210\342\226\210"
+  ps1_jobs="${bldred}\j${txtrst}"
+  ps1_time="${txtrst}\d, \@${txtrst}"
+  ps1_base="[${ps1_jobs}:${bld}\u@\h${txtrst}] (${ps1_time})"
+  ps1_passfail="\$(if [[ \$? == 0 ]]; then echo \"${txtgrn}\"; else echo \"${txtred}\"; fi)${blk}${txtrst}"
+  ps1_cmd_stat="(^${bld}\$?${txtrst})"
+  ps1_cmd_hist="(${txtrst}\!${txtrst})"
+  ps1_branching="${bldpur}\$(sc_branch)${txtrst}"
+  ps1_dir="${ps1_cmd_hist}[${bldylw}\w${txtrst}]"
+  PS1="\n${txtrst}${ps1_passfail} ${ps1_base}${ps1_branching}\n${ps1_dir}\$ ${txtrst}"
+  ### end:OVERLY COMPLICATED BASH PROMPT
 
   # Alias definitions.
   # You may want to put all your additions into a separate file like
@@ -106,16 +119,15 @@ if [[ -n "$PS1" ]] ; then
   # Load Bash Aliases if it exists
   [[ -f "${HOME}/.bash_aliases" ]] && source "${HOME}/.bash_aliases"
 
-  # Load Special Bash Prompt
-  [[ -f "$HOME/.bash_ps1" ]] && source "${HOME}/.bash_ps1"
 fi
 
 # Add RVM to PATH for scripting
 PATH=$PATH:${rvm_path}/bin
-[[ -s "${rvm_path}/scripts/rvm" ]] && source "${rvm_path}/scripts/rvm"  # This loads RVM into a shell session
 
 # RVM bash completion
 [[ -r "${rvm_path}/scripts/completion" ]] && source "${rvm_path}/scripts/completion"
 
-# Add additional functions (if file exists)
-[[ -e "${HOME}/.bash_functions" ]] && source "${HOME}/.bash_functions"
+# Git Completion
+[[ -e "${HOME}/scripts/git-completion.bash" ]] && source "${HOME}/scripts/git-completion.bash"
+
+[[ -s "${rvm_path}/scripts/rvm" ]] && source "${rvm_path}/scripts/rvm" # Load RVM into a shell session *as a function*

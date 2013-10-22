@@ -1,8 +1,8 @@
-# All file types
--a
-
 # Always color, even if piping to another program
 --color
+
+# Always Group
+--group
 
 
 #Additional types

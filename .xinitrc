@@ -19,10 +19,6 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   unset f
 fi
 
-# This was here when I got here.
-# Slim < 1.3.3 requires ck-launch-session
-#exec ck-launch-session dbus-launch openbox-session
-
 # Set cursor speed
 xset m 4 &
 
@@ -30,3 +26,7 @@ xset m 4 &
 setxkbmap -option caps:escape &
 
 exec dbus-launch startlxde
+
+# This was here when I got here.
+# Slim < 1.3.3 requires ck-launch-session
+#exec ck-launch-session dbus-launch openbox-session

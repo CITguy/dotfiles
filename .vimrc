@@ -6,29 +6,17 @@ endif
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
-filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-source ~/.vim_bundlerc
-
-filetype plugin on
+call pathogen#infect()
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
 set history=50  " keep 50 lines of command line history
 set ruler       " show the cursor position all the time
+set showmode
 set showcmd     " display incomplete commands
 set incsearch   " do incremental searching
-
-" Don't use Ex mode, use Q for formatting
-map Q gq
-
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -71,6 +59,7 @@ else
   set autoindent    " always set autoindenting on
 endif " has("autocmd")
 
+
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
   " Preparation: save last search, and cursor position.
@@ -85,22 +74,27 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-"" Convenient command to see the difference between the current buffer and the
-"" file it was loaded from, thus the changes you made.
-"" Only define it when not defined already.
-"if !exists(":DiffOrig")
-"  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
-"endif
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+endif
 
 set t_Co=256 " use 256 color in terminal
 :helptags ~/.vim/doc " include docs in home directory
 
-set number " Show the line number for each line
+" only one of the following can be turned on at a time
+"set number " Show the line number for each line
+set relativenumber " show relative line number to current line (pretty cool, might get confusing)
+
 set ts=2 " Set Tab stop width (2 spaces per tab)
 set sw=2 " Set shift width (2 spaces)
 set so=4 " Set scrolloff (number of lines to show around the cursor)
 set siso=4  " Set side scrolloff, similar to scrolloff but horizontal
 set ch=1 " Set cmdheight lines
+set laststatus=2
 set noautoindent smartindent
 set expandtab
 set nowrap " don't wrap lines
@@ -114,10 +108,23 @@ set mm=10240 " 10MB limit (per file) memory usage
 set mmt=2000000 " No limit on total memory usage
 "set ssop=folds,help,tabpages,unix
 "set shm=aToO " Shortmess info, see :shortmess
-set list
+set nolist
 set listchars=tab:..,eol:$
+set autoread " automatically read file if it has changed outside of Vim
 
-noremap <C-K> :nohls<CR>
+set equalalways " equals window sizes on add/remove of new window
+set noexrc " do not automatically load .vimrc, .exrc and .gvimrc in current directory
+set nolinebreak
+
+set ttyfast " (use locally) indicates a fast terminal connection
+
+" This is to limit the syntax-highlighting to the first 120 columns
+" Useful for files with very long lines
+"set synmaxcol=120
+
+" Seems to help when trying to edit file with deep folds
+set lazyredraw
+
 
 " folding settings
 set foldmethod=indent " fold based on indent
@@ -126,32 +133,60 @@ set foldnestmax=30 " deepest fold is 10 levels
 set foldlevel=10 " keep ALL folds open on file open (must be GTE than foldnestmax)
 set foldenable " Enable Folding
 
-"" colors for autocomplete drop down menu
-"highlight Pmenu ctermfg=1 ctermbg=4 guibg=grey30
 
-map <S-Insert> "+gP
+" ===========================================================
+" MAPPINGS
+" ===========================================================
+let mapleader=","
 
 " mapping CTRL+Arrow to switch between split windows
 map <C-Down> <C-W><Down>
 map <C-Up> <C-W><Up>
 map <C-Left> <C-W><Left>
 map <C-Right> <C-W><Right>
-"Collapse ALL folds
-"map <C>- zm
-"Expand ALL folds
-"map <C>+ zr
+
+nmap <Leader>n :NERDTreeToggle<CR>
+" Don't use Ex mode, use Q for formatting
+map Q gq
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
+" Disable Highlighting
+noremap <C-K> :nohls<CR>
+
 
 colorscheme tir_black
+"colorscheme darkcourses-stdl
 
 " This is so snipMate works
 ":filetype plugin on
 
-"highlight OverLength ctermfg=darkred guibg=#592929
-"match OverLength /\%81v.\+/
+" Dark Yellow for columns 81-100
+"highlight OverLengthWarn ctermfg=DarkYellow guibg=#595959
+"match OverLengthWarn /\%>80v\%<101v/
 
-" This is to limit the syntax-highlighting to the first 120 columns
-" Useful for files with very long lines
-"set synmaxcol=120
+" Dark Red for columns 101+
+"highlight OverLengthDanger ctermfg=DarkRed guibg=#592929
+"2match OverLengthDanger /\%>100v.\+/
 
-" Seems to help when trying to edit file with deep folds
-set lazyredraw
+" fileformat, encoding, type, buffer num, RO/HELP/PREVIEW, mod flag, filepath; spacer; line pos, line/total, percentage
+set statusline=%{&ff}\ \%{&fenc}\ \b%1.3n\ \%#StatusFTP#\%Y\ \%#StatusRO#\%R\ \%#StatusHLP#\%H\ \%#StatusPRV#\%W\ \%#StatusModFlag#\%M\ \%#StatusLine#\%f\%=\%1.7c\ \%1.7l/%L\ \%p%%
+
+" vim-ruby-xmpfilter key mapping
+" Gvim
+nmap <buffer> <M-r> <Plug>(xmpfilter-run)
+xmap <buffer> <M-r> <Plug>(xmpfilter-run)
+imap <buffer> <M-r> <Plug>(xmpfilter-run)
+
+nmap <buffer> <M-m> <Plug>(xmpfilter-mark)
+xmap <buffer> <M-m> <Plug>(xmpfilter-mark)
+imap <buffer> <M-m> <Plug>(xmpfilter-mark)
+
+" Terminal
+nmap <buffer> <F5> <Plug>(xmpfilter-run)
+xmap <buffer> <F5> <Plug>(xmpfilter-run)
+imap <buffer> <F5> <Plug>(xmpfilter-run)
+
+nmap <buffer> <F4> <Plug>(xmpfilter-mark)
+xmap <buffer> <F4> <Plug>(xmpfilter-mark)
+imap <buffer> <F4> <Plug>(xmpfilter-mark)

@@ -1,6 +1,6 @@
 #1: Getting Dropbox/Chrome to open directories/files correctly
-  Solution:
-    export DE=xfce in ~/.xinitrc
+  Solution: (in ~/.xinitrc)
+    export DE=xfce
 
 #2: No route/ifconfig
   packages:
@@ -37,3 +37,19 @@
         fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include        fastcgi_params;
     }
+
+#6: Bash Completion
+  packages:
+    bash-complete
+
+#7: dig capabilities
+  packages:
+    dnsutils
+
+#8: Audio Playback (Codecs)
+  packages:
+    gstreamer0.10-plugins
+
+#9: Proper Conky
+  yaourt package:
+    conky-lua
