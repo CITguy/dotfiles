@@ -1,0 +1,40 @@
+#!/bin/bash
+
+logger -it "config/openbox/autostart" "WUT?"
+
+# Numlock ON
+numlockx on &
+
+# preload pcmanfm as daemon (faster loading)
+pcmanfm -d --no-desktop &
+
+# Set cursor speed and screen blank timeout
+xset m 4 s noblank s 3600 -dpms &
+
+# Set Screen Layout Automatically detect and load proper config
+/home/ryan/scripts/auto_xrandr &
+
+sleep 1
+
+# Reload Wallpaper
+nitrogen --restore &
+
+# Task Bar
+tint2 &
+
+# Battery Applet For Taskbar
+batti &
+
+# Load Volume Icon for Taskbar
+volumeicon &
+
+# Something with X seems to like dimming the backlight
+# and not putting it back where it was.
+#xbacklight -set 100 &
+
+# Mail
+#thunderbird &
+
+# Pidgin
+#pidgin &
+
