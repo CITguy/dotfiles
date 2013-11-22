@@ -36,43 +36,6 @@ function mysqldo() {
 }
 #end:mysqldo()
 
-# ArchBang: WORKS! (need 'net-tools'package)
-# Ubuntu: Works!
-function change_gw() {
-  case $1 in
-    1)
-        sudo route del default;
-        sudo route add default gw 10.10.20.2;;
-    2)
-        sudo route del default;
-        sudo route add default gw 10.10.20.1;;
-    *)
-        echo "Usage: change_gw [1|2]";;
-  esac
-}
-#end:change_gw()
-
-# Should work (O_o)
-function getIntelFeed() {
-  cd /home/ryan/BIN/Intel/HRFeed/AssociateConnect_Linux/bin # go to bin location
-  sh ./receive.sh # run script
-  cd - # go back from whence ye came!
-}
-#end:getIntelFeed
-
-function runIntelFeed() {
-  cd /home/ryan/www/intel # go to intel directory
-  cap maintenance:hr_update RAILS_ENV=production FILE=/home/ryan/BIN/Intel/HRFeed/AssociateConnect_Linux/data/fromhub/INTEL_NCFCPP_PROD/BFDetail_ww${1}.zip # Run cap task
-  cd - # go back from whence ye came!
-}
-#end:runIntelFeed()
-
-function sync_intel_with_ticket() {
-  curl -X POST https://solutions.bluefishwireless.net/intel/update_tickets/crm_sync -d p=blu3fiSh -d ticket_number=$1
-  echo -e "\n"
-}
-#sync_intel_with_ticket
-
 function re_source() {
   source $HOME/.bashrc
 }
