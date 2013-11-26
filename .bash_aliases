@@ -1,9 +1,4 @@
-# some more ls aliases
-alias ls='ls --color=auto'
-alias ll='ls --color=auto -alhF'
+# Template/Example (DO NOT SYMLINK)
 alias :q='exit'
-alias open='xdg-open'
-#alias pacman='pacman-color'
 alias env='env | sort'
-alias sctl='systemctl'
-alias jctl='journalctl'
+alias ls='ls -hFT'
