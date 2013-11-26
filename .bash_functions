@@ -7,19 +7,31 @@ function git_branch() {
 }
 
 
-function hg_branch() {
-  hg branch 2> /dev/null | awk '{ print " (hg: "$1")" }'
+function mongoctl() {
+  pid=`ps aux | grep "mongod\.conf" | awk '{ print $2 }'`
+  case "$1" in
+    "start")
+      mongod --dbpath $HOME/workspace/data/db &> /dev/null &
+      ;;
+    "stop")
+      kill -9 $pid
+      ;;
+    "status")
+      if [ -n "$pid" ]
+      then
+        echo "RUNNING $pid"
+      else
+        echo "STOPPED"
+      fi
+      ;;
+  esac
 }
-
-
-function sc_branch() {
-  hg_branch
-  git_branch
-}
+#mongoctl
 
 # Jot Down (jd)
 # @arg filename ('scratch')
 function jd() {
-  mkdir -p $HOME/workspace/notes
-  $EDITOR $HOME/workspace/notes/${1-scratch}.txt
+  notes_dir="${HOME}/workspace/notes"
+  mkdir -p $notes_dir
+  $EDITOR ${notes_dir}/${1-scratch}.txt
 }

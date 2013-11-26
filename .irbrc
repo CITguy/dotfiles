@@ -1,7 +1,5 @@
 require 'rubygems'
 
-Dir["#{ENV['HOME']}/BIN/rb/irb_helpers/*.rb"].each{ |helper| require helper }
-
 begin
   require "awesome_print"
   IRB::Irb.class_eval do
