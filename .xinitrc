@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# This file is used for Linux systems
+
 /usr/bin/logger -si -t LOADED "/home/ryan/.xinitrc"
 
 # Needed for automagic opening of mimetypes
