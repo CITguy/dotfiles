@@ -1,0 +1,6 @@
+--skip-bundle
+--no-skip-git
+--no-skip-keeps
+--no-skip-spring
+--no-edge
+--no-dev

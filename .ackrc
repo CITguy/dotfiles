@@ -8,10 +8,13 @@
 #Additional types
 --type-set=swp=.swp
 
---type-add=ruby=.haml,.rake
+--type-add=ruby=.haml,.rake,.feature,.ru,.lock
 --type-add=css=.scss
 --type-add=css=.less
 
 --type-set=sass=.sass
 --type-set=haml=.haml
 --type-set=xml=.rxml
+
+--ignore-dir=.idea
+--ignore-dir=node_modules
