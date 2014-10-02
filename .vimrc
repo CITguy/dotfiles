@@ -151,8 +151,6 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 " set tabstop and shiftwidth to 4 ONLY for python files
 au Filetype python setl et ts=4 sw=4
 
-let g:github_api_url = 'http://github.rackspace.com/api/v3'
-
 " https://coderwall.com/p/faceag
 function! ReformatJSON()
   %!python -m json.tool
