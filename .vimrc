@@ -1,10 +1,16 @@
 :helptags ~/.vim/doc " include docs in home directory
 
+" FYI: vim no likey the i flag with zsh
+set shell=zsh " use ZSH for vimshell
+
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
 call pathogen#infect()
+
+" turn off vim-json concealing
+let g:vim_json_syntax_conceal = 0
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -52,33 +58,36 @@ set hlsearch    " highlight the last used search pattern
 set number         " Show the line number for each line
 set relativenumber " show relative line number to current line (pretty cool, might get confusing)
 
-set ts=2        " Set Tab stop width (2 spaces per tab)
-set sw=2        " Set shift width (2 spaces)
-set so=4        " Set scrolloff (number of lines to show around the cursor)
-set siso=4      " Set side scrolloff, similar to scrolloff but horizontal
-set ch=1        " Set cmdheight lines
+set ts=2          " Set tabstop width (2 spaces per tab)
+set sw=2          " Set shiftwidth (2 spaces)
+set sts=2         " Set softtabstop (2 spaces per tab)
+set so=4          " Set scrolloff (number of lines to show around the cursor)
+set siso=4        " Set side scrolloff, similar to scrolloff but horizontal
+set ch=1          " Set cmdheight lines
 set laststatus=2
 set noautoindent smartindent
 set expandtab
-set nowrap      " don't wrap lines
-set nolinebreak " linebreak: not used if 'wrap' is off
+set nowrap        " don't wrap lines
+set textwidth=0   " disable automatic wrap in edit mode
+set wrapmargin=0  " don't wrap
+set nolinebreak   " linebreak: not used if 'wrap' is off
 set title
-set mh          " hide the mouse when typing text
-set mouse-=     " disable mouse usage
+set mh            " hide the mouse when typing text
+set mouse-=       " disable mouse usage
 set wildmenu
-set cul         " Show Cursor Line
-set nocuc       " Do NOT Show Cursor Column
-set mm=10240    " 10MB limit (per file) memory usage
-set mmt=2000000 " No limit on total memory usage
+set cul           " Show Cursor Line
+set nocuc         " Do NOT Show Cursor Column
+set mm=10240      " 10MB limit (per file) memory usage
+set mmt=2000000   " No limit on total memory usage
 "set ssop=folds,help,tabpages,unix
-"set shm=aToO   " Shortmess info, see :shortmess
-set autoread    " automatically read file if it has changed outside of Vim
-set equalalways " equals window sizes on add/remove of new window
-set noexrc      " do not automatically load .vimrc, .exrc and .gvimrc in current directory
-set ttyfast     " (use locally) indicates a fast terminal connection
+"set shm=aToO     " Shortmess info, see :shortmess
+set autoread      " automatically read file if it has changed outside of Vim
+set equalalways   " equals window sizes on add/remove of new window
+set noexrc        " do not automatically load .vimrc, .exrc and .gvimrc in current directory
+set ttyfast       " (use locally) indicates a fast terminal connection
 
 set listchars=tab:..,eol:$
-set nolist      " display listchars
+set nolist        " display listchars
 
 
 " This is to limit the syntax-highlighting to the first 120 columns
@@ -108,7 +117,9 @@ map <C-Up> <C-W><Up>
 map <C-Left> <C-W><Left>
 map <C-Right> <C-W><Right>
 
-nmap <Leader>n :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
+"nmap <Leader>n :NERDTreeToggle<CR>
+
 " Don't use Ex mode, use Q for formatting
 map Q gq
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
@@ -123,12 +134,8 @@ colorscheme tir_black
 "colorscheme mayansmoke
 "colorscheme summerfruit256
 
-" This is so snipMate works
-":filetype plugin on
-
 " fileformat, encoding, type, buffer num, RO/HELP/PREVIEW, mod flag, filepath; spacer; line pos, line/total, percentage
 set statusline=%{&ff}\ \%{&fenc}\ \b%1.3n\ \%#StatusFTP#\%Y\ \%#StatusRO#\%R\ \%#StatusHLP#\%H\ \%#StatusPRV#\%W\ \%#StatusModFlag#\%M\ \%#StatusLine#\%f\%=\%1.7c\ \%1.7l/%L\ \%p%%
-
 
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
@@ -148,10 +155,8 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 "highlight ColorColumn ctermbg=DarkRed
 "call matchadd('ColorColumn', '\%81v', 100)
 
-" set tabstop and shiftwidth to 4 ONLY for python files
-au Filetype python setl et ts=4 sw=4
-
 " https://coderwall.com/p/faceag
 function! ReformatJSON()
   %!python -m json.tool
 endfunction
+
