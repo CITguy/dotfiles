@@ -1,11 +1,11 @@
 :helptags ~/.vim/doc " include docs in home directory
 
-" FYI: vim no likey the i flag with zsh
-set shell=zsh " use ZSH for vimshell
-
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
+
+" FYI: vim no likey the i flag with zsh
+set shell=zsh " use ZSH for vimshell
 
 call pathogen#infect()
 
@@ -82,12 +82,24 @@ set mmt=2000000   " No limit on total memory usage
 "set ssop=folds,help,tabpages,unix
 "set shm=aToO     " Shortmess info, see :shortmess
 set autoread      " automatically read file if it has changed outside of Vim
-set equalalways   " equals window sizes on add/remove of new window
 set noexrc        " do not automatically load .vimrc, .exrc and .gvimrc in current directory
 set ttyfast       " (use locally) indicates a fast terminal connection
 
 set listchars=tab:..,eol:$
 set nolist        " display listchars
+
+"" WINDOW SIZING
+"" http://vim.wikia.com/wiki/Window_zooming_convenience
+"set equalalways   " equals window sizes on add/remove of new window
+set noequalalways
+set nowinfixwidth
+set nowinfixheight
+" width must come before height
+set wiw=999 " winwidth
+set wmw=40 " winminwidth
+set wh=10  " winheight - has to be same value as wmh initially or vim complains
+set wmh=10 " winminheight
+set wh=999 " (winheight) allow window to take up as much height as possible
 
 
 " This is to limit the syntax-highlighting to the first 120 columns
@@ -112,10 +124,14 @@ set foldenable        " Enable Folding
 let mapleader=","
 
 " mapping CTRL+Arrow to switch between split windows
-map <C-Down> <C-W><Down>
-map <C-Up> <C-W><Up>
-map <C-Left> <C-W><Left>
-map <C-Right> <C-W><Right>
+" map <C-Down> <C-W><Down>
+" map <C-Up> <C-W><Up>
+" map <C-Left> <C-W><Left>
+" map <C-Right> <C-W><Right>
+map <C-J> <C-W><Down>
+map <C-K> <C-W><Up>
+map <C-H> <C-W><Left>
+map <C-L> <C-W><Right>
 
 map <C-n> :NERDTreeToggle<CR>
 "nmap <Leader>n :NERDTreeToggle<CR>
@@ -126,7 +142,8 @@ map Q gq
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 " Disable Highlighting
-noremap <C-K> :nohls<CR>
+" noremap <C-K> :nohls<CR> " interferes with C-HJKL for window movement
+noremap <C-\> :nohls<CR>
 
 " Dark Theme
 colorscheme tir_black
@@ -159,4 +176,5 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 function! ReformatJSON()
   %!python -m json.tool
 endfunction
+
 
