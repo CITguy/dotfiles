@@ -1,16 +1,34 @@
-:helptags ~/.vim/doc " include docs in home directory
+" When started as "evim", evim.vim will already have done these settings.
+if v:progname =~? "evim"
+  finish
+endif
 
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" FYI: vim no likey the i flag with zsh
-set shell=zsh " use ZSH for vimshell
-
 call pathogen#infect()
 
-" turn off vim-json concealing
-let g:vim_json_syntax_conceal = 0
+" allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+set history=50  " keep 50 lines of command line history
+set ruler       " show the cursor position all the time
+set showmode
+set showcmd     " display incomplete commands
+set incsearch   " do incremental searching
+
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+  syntax on
+  set hlsearch
+endif
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -41,18 +59,31 @@ else
   set autoindent    " always set autoindenting on
 endif " has("autocmd")
 
-" allow backspacing over everything in insert mode
-set backspace=indent,eol,start
 
-set history=50 " keep 50 lines of command line history
-set ruler      " show the cursor position all the time
-set showmode   " shows mode on last line of vim buffer
-set showcmd    " display incomplete commands
-set incsearch  " do incremental searching
+" Strip trailing whitespace
+function! <SID>StripTrailingWhitespaces()
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  %s/\s\+$//e
+  " Clean up: restore previous search history, and cursor position
+  let @/=_s
+  call cursor(l, c)
+endfunction
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-set t_Co=256    " use 256 color in terminal
-syntax on       " turn on syntax highlighting
-set hlsearch    " highlight the last used search pattern
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis | wincmd p | diffthis
+endif
+
+set t_Co=256 " use 256 color in terminal
+:helptags ~/.vim/doc " include docs in home directory
 
 set relativenumber " show relative line number to current line
 set ts=2 " Set Tab stop width (2 spaces per tab)
@@ -63,40 +94,26 @@ set ch=1 " Set cmdheight lines
 set laststatus=2
 set noautoindent smartindent
 set expandtab
-set nowrap        " don't wrap lines
-set textwidth=0   " disable automatic wrap in edit mode
-set wrapmargin=0  " don't wrap
-set nolinebreak   " linebreak: not used if 'wrap' is off
+set nowrap " don't wrap lines
 set title
-set mh            " hide the mouse when typing text
-set mouse-=       " disable mouse usage
+set mh " hide the mouse when typing text
+set mouse-=a " disable visual selection mode for mouse"
 set wildmenu
-set cul           " Show Cursor Line
-set nocuc         " Do NOT Show Cursor Column
-set mm=10240      " 10MB limit (per file) memory usage
-set mmt=2000000   " No limit on total memory usage
+set cul " Show Cursor Line
+set nocuc " Do NOT Show Cursor Column
+set mm=10240 " 10MB limit (per file) memory usage
+set mmt=2000000 " No limit on total memory usage
 "set ssop=folds,help,tabpages,unix
-"set shm=aToO     " Shortmess info, see :shortmess
-set autoread      " automatically read file if it has changed outside of Vim
-set noexrc        " do not automatically load .vimrc, .exrc and .gvimrc in current directory
-set ttyfast       " (use locally) indicates a fast terminal connection
-
+"set shm=aToO " Shortmess info, see :shortmess
+set nolist
 set listchars=tab:..,eol:$
-set nolist        " display listchars
+set autoread " automatically read file if it has changed outside of Vim
 
-"" WINDOW SIZING
-"" http://vim.wikia.com/wiki/Window_zooming_convenience
-"set equalalways   " equals window sizes on add/remove of new window
-set noequalalways
-set nowinfixwidth
-set nowinfixheight
-" width must come before height
-set wiw=999 " winwidth
-set wmw=40 " winminwidth
-set wh=10  " winheight - has to be same value as wmh initially or vim complains
-set wmh=10 " winminheight
-set wh=999 " (winheight) allow window to take up as much height as possible
+set equalalways " equals window sizes on add/remove of new window
+set noexrc " do not automatically load .vimrc, .exrc and .gvimrc in current directory
+set nolinebreak
 
+set ttyfast " (use locally) indicates a fast terminal connection
 
 " This is to limit the syntax-highlighting to the first 120 columns
 " Useful for files with very long lines
@@ -129,9 +146,7 @@ map <C-J> <C-W><Down>
 map <C-K> <C-W><Up>
 map <C-L> <C-W><Right>
 
-"nmap <Leader>n :NERDTreeToggle<CR>
-map <C-n> :NERDTreeToggle<CR>
-
+nmap <Leader>n :NERDTreeToggle<CR>
 " Don't use Ex mode, use Q for formatting
 map Q gq
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
@@ -140,36 +155,39 @@ inoremap <C-U> <C-G>u<C-U>
 " Disable Highlighting
 noremap <C-\> :nohls<CR>
 
-" Dark Theme
+
 colorscheme tir_black
-" Light Themes
-"colorscheme mayansmoke
-"colorscheme summerfruit256
+"colorscheme darkcourses-stdl
+
+" This is so snipMate works
+":filetype plugin on
+
+" Dark Yellow for columns 81-100
+"highlight OverLengthWarn ctermfg=DarkYellow guibg=#595959
+"match OverLengthWarn /\%>80v\%<101v/
+
+" Dark Red for columns 101+
+"highlight OverLengthDanger ctermfg=DarkRed guibg=#592929
+"2match OverLengthDanger /\%>100v.\+/
 
 " fileformat, encording, ('b' + buffer num), RO, PREVIEW, mod flag, filepath, spacer, col, line/total lines, pct
 set statusline=%{&ff}\ %{&fenc}\ \b%1.3n\ %Y\ %r\ %W\ %m\ %F%=\ %1.7c\ %1.7l/%L\ %p%%
 
-" Strip trailing whitespace
-function! <SID>StripTrailingWhitespaces()
-  " Preparation: save last search, and cursor position.
-  let _s=@/
-  let l = line(".")
-  let c = col(".")
-  " Do the business:
-  %s/\s\+$//e
-  " Clean up: restore previous search history, and cursor position
-  let @/=_s
-  call cursor(l, c)
-endfunction
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+" vim-ruby-xmpfilter key mapping
+" Gvim
+nmap <buffer> <M-r> <Plug>(xmpfilter-run)
+xmap <buffer> <M-r> <Plug>(xmpfilter-run)
+imap <buffer> <M-r> <Plug>(xmpfilter-run)
 
-"" Only highlight a single char at column 81
-"highlight ColorColumn ctermbg=DarkRed
-"call matchadd('ColorColumn', '\%81v', 100)
+nmap <buffer> <M-m> <Plug>(xmpfilter-mark)
+xmap <buffer> <M-m> <Plug>(xmpfilter-mark)
+imap <buffer> <M-m> <Plug>(xmpfilter-mark)
 
-" https://coderwall.com/p/faceag
-function! ReformatJSON()
-  %!python -m json.tool
-endfunction
+" Terminal
+nmap <buffer> <F5> <Plug>(xmpfilter-run)
+xmap <buffer> <F5> <Plug>(xmpfilter-run)
+imap <buffer> <F5> <Plug>(xmpfilter-run)
 
-
+nmap <buffer> <F4> <Plug>(xmpfilter-mark)
+xmap <buffer> <F4> <Plug>(xmpfilter-mark)
+imap <buffer> <F4> <Plug>(xmpfilter-mark)
