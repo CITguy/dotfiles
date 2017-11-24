@@ -85,10 +85,7 @@ endif
 set t_Co=256 " use 256 color in terminal
 :helptags ~/.vim/doc " include docs in home directory
 
-" only one of the following can be turned on at a time
-"set number " Show the line number for each line
-set relativenumber " show relative line number to current line (pretty cool, might get confusing)
-
+set relativenumber " show relative line number to current line
 set ts=2 " Set Tab stop width (2 spaces per tab)
 set sw=2 " Set shift width (2 spaces)
 set so=4 " Set scrolloff (number of lines to show around the cursor)
@@ -125,11 +122,15 @@ set ttyfast " (use locally) indicates a fast terminal connection
 " Seems to help when trying to edit file with deep folds
 set lazyredraw
 
+set noerrorbells
+set visualbell
+set wildignore=*.swp,*.bak,*.pyc,*.class
+
 
 " folding settings
 set foldmethod=indent " fold based on indent
 set foldcolumn=0 " No foldcolumn
-set foldnestmax=30 " deepest fold is 10 levels
+set foldnestmax=10 " deepest fold is 10 levels
 set foldlevel=10 " keep ALL folds open on file open (must be GTE than foldnestmax)
 set foldenable " Enable Folding
 
@@ -140,10 +141,10 @@ set foldenable " Enable Folding
 let mapleader=","
 
 " mapping CTRL+Arrow to switch between split windows
-map <C-Down> <C-W><Down>
-map <C-Up> <C-W><Up>
-map <C-Left> <C-W><Left>
-map <C-Right> <C-W><Right>
+map <C-H> <C-W><Left>
+map <C-J> <C-W><Down>
+map <C-K> <C-W><Up>
+map <C-L> <C-W><Right>
 
 nmap <Leader>n :NERDTreeToggle<CR>
 " Don't use Ex mode, use Q for formatting
@@ -152,7 +153,7 @@ map Q gq
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
 " Disable Highlighting
-noremap <C-K> :nohls<CR>
+noremap <C-\> :nohls<CR>
 
 
 colorscheme tir_black
@@ -169,8 +170,8 @@ colorscheme tir_black
 "highlight OverLengthDanger ctermfg=DarkRed guibg=#592929
 "2match OverLengthDanger /\%>100v.\+/
 
-" fileformat, encoding, type, buffer num, RO/HELP/PREVIEW, mod flag, filepath; spacer; line pos, line/total, percentage
-set statusline=%{&ff}\ \%{&fenc}\ \b%1.3n\ \%#StatusFTP#\%Y\ \%#StatusRO#\%R\ \%#StatusHLP#\%H\ \%#StatusPRV#\%W\ \%#StatusModFlag#\%M\ \%#StatusLine#\%f\%=\%1.7c\ \%1.7l/%L\ \%p%%
+" fileformat, encording, ('b' + buffer num), RO, PREVIEW, mod flag, filepath, spacer, col, line/total lines, pct
+set statusline=%{&ff}\ %{&fenc}\ \b%1.3n\ %Y\ %r\ %W\ %m\ %F%=\ %1.7c\ %1.7l/%L\ %p%%
 
 " vim-ruby-xmpfilter key mapping
 " Gvim
