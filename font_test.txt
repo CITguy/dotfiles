@@ -7,3 +7,11 @@ THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
 def something(this="that")
   puts "This is something"
 end
+
+var fooBar = function () {
+  if (true) {
+    return "No Way";
+  } else {
+    return "That's crazy";
+  }
+};

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+for dir in ~/.vim/bundle/*/
+do
+  dir=${dir%*/} # remove trailing slash
+  dirname=${dir##*/}
+  echo "Updating ${dirname}"
+  cd $dir
+  git pull
+  echo ''
+done

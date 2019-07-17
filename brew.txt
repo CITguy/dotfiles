@@ -1,0 +1,9 @@
+ack
+git
+node-build
+nodenv
+rbenv
+ruby-build
+vim
+tree
+yarn

@@ -1,0 +1,37 @@
+#!/bin/sh
+
+debug=0
+scriptName="md5check"
+
+if [ $# -ne "2" ]
+then
+  echo "${scriptName}: missing arguments"
+  echo "usage: md5check filename md5sum"
+  exit 64 # EX_USAGE exit code
+fi
+
+inputFile=$1
+[[ "$debug" > "0" ]] && echo "Input: $inputFile"
+
+# exit if missing inputFile
+if [ ! -e $inputFile ]
+then
+  echo "${scriptName}: ${inputFile}: No such file or directory"
+  exit 66 # EX_NOINPUT
+fi
+
+md5expected=${2}
+[[ "$debug" > "0" ]] && echo "Expected MD5: $md5expected"
+
+md5calculated=`md5 -q $inputFile`
+[[ "$debug" > "0" ]] && echo "Calculated MD5: $md5calculated"
+
+
+if [ "$md5calculated" == "$md5expected" ]
+then
+  echo "pass"
+  exit 0
+else
+  echo "fail (no match)"
+  exit 1
+fi

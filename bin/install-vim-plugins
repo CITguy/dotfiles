@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# ensure pathogen directory exists
+mkdir -p ~/.vim/bundle
+
+cd ~/.vim/bundle
+
+## TODO: move to bash 4 to use associative array for simple iteration
+
+if [ ! -d "vim-javascript" ]; then
+  echo "Installing vim-javascript"
+  git clone https://github.com/pangloss/vim-javascript.git
+fi
+echo "vim-javascript installed"
+
+if [ ! -d "nerdtree" ]; then
+  echo "Installing nerdtree"
+  git clone https://github.com/scrooloose/nerdtree.git
+fi
+echo "nerdtree installed"
+
+if [ ! -d "typescript-vim" ]; then
+  echo "Installing typescript-vim"
+  git clone https://github.com/leafgarland/typescript-vim.git
+fi
+echo "typescript-vim installed"
+
+if [ ! -d "vim-fugitive" ]; then
+  echo "Installing vim-fugitive"
+  git clone git://github.com/tpope/vim-fugitive.git
+fi
+echo "vim-futitive installed"
+
+if [ ! -d "vim-json" ]; then
+  echo "Installing vim-json"
+  git clone git@github.com:elzr/vim-json.git
+fi
+echo "vim-json installed"
+
+if [ ! -d "vim-less" ]; then
+  echo "Installing vim-less"
+  git clone https://github.com/groenewege/vim-less
+fi
+echo "vim-less installed"
+
+if [ ! -d "vim-surround" ]; then
+  echo "Installing vim-surround"
+  git clone https://github.com/anyakichi/vim-surround
+fi
+echo "vim-surround installed"
+

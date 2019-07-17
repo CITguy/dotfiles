@@ -1,4 +1,4 @@
-" ensure 4 spaces per tab
+" keep same as javascript.vim
 setl tabstop=4
 setl softtabstop=4
 setl shiftwidth=4
