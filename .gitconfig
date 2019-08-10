@@ -5,17 +5,17 @@
   tool = meld
 
 [alias]
-	pu = pull
-	co = checkout
-	br = branch
-	st = status
-	dif = diff
+  pu = pull
+  co = checkout
+  br = branch
+  st = status
+  dif = diff
   gr = log --graph
   unstage = reset HEAD --
   last = log -1 HEAD
 
 [color]
-	ui = true
+  ui = true
 [color "branch"]
   current = yellow reverse
   local = blue bold
@@ -38,7 +38,7 @@
   simple=format:"%C(red bold)[%h] %C(white)%an %C(blue)<%ae>%C(yellow)%d%Creset%n   Authored: %ad%n  Committed: %cd%n    Subject: %s%n"
 
 [credential]
-	helper = osxkeychain
+  helper = osxkeychain
 
 [push]
-	default = simple
+  default = simple
