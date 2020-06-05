@@ -7,7 +7,8 @@ endif
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-call pathogen#infect()
+"call pathogen#infect()
+"Use vim8 packages (:help packages)
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -83,7 +84,6 @@ if !exists(":DiffOrig")
 endif
 
 set t_Co=256 " use 256 color in terminal
-:helptags ~/.vim/doc " include docs in home directory
 
 set relativenumber " show relative line number to current line
 set ts=2 " Set Tab stop width (2 spaces per tab)

@@ -1,9 +1,13 @@
 ack
+editorconfig
 git
+node
 node-build
 nodenv
 rbenv
 ruby-build
-vim
 tree
+vim
+watchman
+wget
 yarn
