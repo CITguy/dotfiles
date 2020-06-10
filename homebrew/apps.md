@@ -1,0 +1,12 @@
+* ack
+* editorconfig
+* git
+* node-build
+* nodenv
+* rbenv
+* ruby-build
+* tree
+* vim
+* watchman
+* wget
+* yarn
