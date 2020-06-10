@@ -1,3 +1,8 @@
+## FIXME!!!
+#[user]
+#	name =
+#	email =
+
 [core]
   editor = vim
 
