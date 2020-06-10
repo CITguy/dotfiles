@@ -75,6 +75,3 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 # For a full list of active aliases, run `alias`.
 
 [[ -e $HOME/.zsh_private ]] && source $HOME/.zsh_private
-
-# nodenv
-eval "$(nodenv init -)"
