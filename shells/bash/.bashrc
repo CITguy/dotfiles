@@ -35,7 +35,7 @@ ps1_vim_shellout=${VIM:+"[vim:sh]"}
 PS1="\n${txtrst}${ps1_passfail} ${ps1_base}${ps1_branching} ${ps1_vim_shellout}\n${ps1_dir}\$ ${txtrst}"
 ### end:OVERLY COMPLICATED BASH PROMPT
 
-# modify path for Homebrew
+# modify path for Homebrew (Mac)
 export PATH=/usr/local/bin:$PATH
 
 # initailzie RBENV
