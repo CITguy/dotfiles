@@ -193,3 +193,8 @@ imap <buffer> <F5> <Plug>(xmpfilter-run)
 nmap <buffer> <F4> <Plug>(xmpfilter-mark)
 xmap <buffer> <F4> <Plug>(xmpfilter-mark)
 imap <buffer> <F4> <Plug>(xmpfilter-mark)
+
+
+" NERDTree configs
+let g:NERDTreeCascadeOpenSingleChildDir = 1 " expand lone child when expanding parent
+let g:NERDTreeCascadeSingleChildDir = 0 " dirs on separate lines
