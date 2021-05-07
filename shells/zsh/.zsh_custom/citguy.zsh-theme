@@ -65,7 +65,7 @@ function citguy_rbenv() {
   echo -n "$k$thx$bye"
 }
 function citguy_build_lprompt() {
-  local line1="[$(citguy_jobs):$(citguy_user)] ($(citguy_time)) $(citguy_path)"
+  local line1="[$(citguy_jobs):$(citguy_user)@$(hostname -s)] ($(citguy_time)) $(citguy_path)"
   local line2="[$(citguy_lastcode):$(citguy_histnum)]$(citguy_git)$(citguy_vimsh) %#"
   echo -n "$(citguy_reset)\n$line1\n$line2%{$reset_color%} "
 }
