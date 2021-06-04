@@ -1,11 +1,32 @@
-" When started as "evim", evim.vim will already have done these settings.
-if v:progname =~? "evim"
-  finish
-endif
+set nocompatible " Reset to Vim defaults (not Vi)
 
-" Use Vim settings, rather than Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
+" --------------------------------------------------------------------------------
+" Flags (boolean options)
+" --------------------------------------------------------------------------------
+set noautoindent " Use smartindent instead [see `smartindent`]
+set noautoread " autoread files if they change outside of Vim
+set nocursorcolumn " [cuc] toggle display of  cursor column
+set   cursorline " Show Cursor Line
+set noerrorbells
+set   equalalways " equals window sizes on add/remove of new window
+set   expandtab
+set noexrc " Do NOT auto load .vimrc, .exrc, and .gvimrc in the current directory (#SECURITY)
+set   foldenable " enable folding
+set   hlsearch " switch on highlighting for the last used search pattern
+set   incsearch " do incremental searching
+set   lazyredraw "  seems to help when trying to  edit file with deep folds
+set nolinebreak " don't wrap long lines via 'breakat' chars
+set nolist " toggle display of hidden chracters (tab, space, $) [see `listchars`]
+set   number " display current line number
+set   relativenumber " toggle relative line numbers from current line [see `number`]
+set   ruler " toggle display of cursor position (`statusline` overrides this setting) [see `statusline`]
+"set   showcmd " toggle display of incomplete commands (ON with `nocompatible`)
+"set   showmode " (ON with `nocompatible`)
+set   smartindent
+set   smarttab
+set   visualbell
+set   wildmenu
+
 
 "call pathogen#infect()
 "Use vim8 packages (:help packages)
@@ -14,9 +35,6 @@ set nocompatible
 set backspace=indent,eol,start
 
 set history=50  " keep 50 lines of command line history
-set ruler       " show the cursor position all the time
-set showmode
-set showcmd     " display incomplete commands
 set incsearch   " do incremental searching
 
 " In many terminal emulators the mouse works just fine, thus enable it.
@@ -85,34 +103,22 @@ endif
 
 set t_Co=256 " use 256 color in terminal
 
-set relativenumber " show relative line number to current line
 set ts=2 " Set Tab stop width (2 spaces per tab)
 set sw=2 " Set shift width (2 spaces)
 set so=4 " Set scrolloff (number of lines to show around the cursor)
 set siso=4  " Set side scrolloff, similar to scrolloff but horizontal
 set ch=1 " Set cmdheight lines
 set laststatus=2
-set noautoindent smartindent
-set expandtab
 set nowrap " don't wrap lines
 set title
 set mh " hide the mouse when typing text
 set mouse-=a " disable visual selection mode for mouse"
-set wildmenu
 set cul " Show Cursor Line
-set nocuc " Do NOT Show Cursor Column
 set mm=10240 " 10MB limit (per file) memory usage
 set mmt=2000000 " No limit on total memory usage
 "set ssop=folds,help,tabpages,unix
 "set shm=aToO " Shortmess info, see :shortmess
-set nolist
 set listchars=tab:..,eol:$
-set autoread " automatically read file if it has changed outside of Vim
-
-set equalalways " equals window sizes on add/remove of new window
-set noexrc " do not automatically load .vimrc, .exrc and .gvimrc in current directory
-set nolinebreak
-
 set ttyfast " (use locally) indicates a fast terminal connection
 
 " This is to limit the syntax-highlighting to the first 120 columns
@@ -123,7 +129,6 @@ set ttyfast " (use locally) indicates a fast terminal connection
 set lazyredraw
 
 set noerrorbells
-set visualbell
 set wildignore=*.swp,*.bak,*.pyc,*.class
 
 
@@ -147,7 +152,7 @@ map <C-K> <C-W><Up>
 map <C-L> <C-W><Right>
 
 nmap <Leader>n :NERDTreeToggle<CR>
-" Turn off K binding (disable keyword lookup under the cursor)
+" Turn off K binding (disable keyword lookup under cursor)
 noremap K <NOP>
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -158,8 +163,8 @@ inoremap <C-U> <C-G>u<C-U>
 noremap <C-\> :nohls<CR>
 
 
-colorscheme tir_black
-"colorscheme darkcourses-stdl
+colorscheme tir_black " not installed by default
+
 
 " This is so snipMate works
 ":filetype plugin on
@@ -172,29 +177,50 @@ colorscheme tir_black
 "highlight OverLengthDanger ctermfg=DarkRed guibg=#592929
 "2match OverLengthDanger /\%>100v.\+/
 
-" fileformat, encording, ('b' + buffer num), RO, PREVIEW, mod flag, filepath, spacer, col, line/total lines, pct
-set statusline=%{&ff}\ %{&fenc}\ \b%1.3n\ %Y\ %r\ %W\ %m\ %F%=\ %1.7c\ %1.7l/%L\ %p%%
+" fileformat, encoding, ('b' + buffer num), RO, PREVIEW, mod flag, filepath, spacer, col, line/total lines, pct
+"set statusline=%{&ff}\ %{&fenc}\ \b%1.3n\ %Y\ %r\ %W\ %m\ %F%=\ %1.7c\ %1.7l/%L\ %p%%
 
-" vim-ruby-xmpfilter key mapping
-" Gvim
-nmap <buffer> <M-r> <Plug>(xmpfilter-run)
-xmap <buffer> <M-r> <Plug>(xmpfilter-run)
-imap <buffer> <M-r> <Plug>(xmpfilter-run)
+set stl=%!CITguyStatusLine()
 
-nmap <buffer> <M-m> <Plug>(xmpfilter-mark)
-xmap <buffer> <M-m> <Plug>(xmpfilter-mark)
-imap <buffer> <M-m> <Plug>(xmpfilter-mark)
+function! CITguyStatusLine()
+  " reset
+  set stl=
 
-" Terminal
-nmap <buffer> <F5> <Plug>(xmpfilter-run)
-xmap <buffer> <F5> <Plug>(xmpfilter-run)
-imap <buffer> <F5> <Plug>(xmpfilter-run)
+  " -- Left-aligned Items
+  set stl+=%{&ff}\ %{&fenc} " fileinfo: {format} {encoding}
+  set stl+=\ %f             " Full path to file in buffer
 
-nmap <buffer> <F4> <Plug>(xmpfilter-mark)
-xmap <buffer> <F4> <Plug>(xmpfilter-mark)
-imap <buffer> <F4> <Plug>(xmpfilter-mark)
+  " -- Alignment Separator
+  set stl+=%=
+
+  " -- Right-aligned Items
+  set stl+=\ %r%w%m         " flags: {readonly} {preview}
+  set stl+=\ %1.7c:%1.7l "/%L " col:line/lines
+  set stl+=\ %p%%           " line %
+  set stl+=\ %Y\ \b%1.3n    " {filetype} b{buffernum}
+endfunction
+
+" TODO: is this needed?
+"" vim-ruby-xmpfilter key mapping
+"" Gvim
+"nmap <buffer> <M-r> <Plug>(xmpfilter-run)
+"xmap <buffer> <M-r> <Plug>(xmpfilter-run)
+"imap <buffer> <M-r> <Plug>(xmpfilter-run)
+"
+"nmap <buffer> <M-m> <Plug>(xmpfilter-mark)
+"xmap <buffer> <M-m> <Plug>(xmpfilter-mark)
+"imap <buffer> <M-m> <Plug>(xmpfilter-mark)
+"
+"" Terminal
+"nmap <buffer> <F5> <Plug>(xmpfilter-run)
+"xmap <buffer> <F5> <Plug>(xmpfilter-run)
+"imap <buffer> <F5> <Plug>(xmpfilter-run)
+"
+"nmap <buffer> <F4> <Plug>(xmpfilter-mark)
+"xmap <buffer> <F4> <Plug>(xmpfilter-mark)
+"imap <buffer> <F4> <Plug>(xmpfilter-mark)
 
 
-" NERDTree configs
-let g:NERDTreeCascadeOpenSingleChildDir = 1 " expand lone child when expanding parent
-let g:NERDTreeCascadeSingleChildDir = 0 " dirs on separate lines
+" NERDTree Configuration
+let NERDTreeCascadeOpenSingleChildDir=1 " expand lone child when expanding parent
+let NERDTreeCascadeSingleChildDir=0     " disable collapse of single-child directories
