@@ -74,4 +74,4 @@ function citguy_build_rprompt() {
 }
 
 PROMPT='$(citguy_build_lprompt)'
-RPROMPT='$(citguy_build_rprompt)'
+#RPROMPT='$(citguy_build_rprompt)'
