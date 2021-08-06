@@ -177,27 +177,29 @@ colorscheme tir_black " not installed by default
 "highlight OverLengthDanger ctermfg=DarkRed guibg=#592929
 "2match OverLengthDanger /\%>100v.\+/
 
-" fileformat, encoding, ('b' + buffer num), RO, PREVIEW, mod flag, filepath, spacer, col, line/total lines, pct
+" [default value] Can't see info at start of line with lengthy buffer path present
+"                 Pushes info out of view to the left.
 "set statusline=%{&ff}\ %{&fenc}\ \b%1.3n\ %Y\ %r\ %W\ %m\ %F%=\ %1.7c\ %1.7l/%L\ %p%%
-
 set stl=%!CITguyStatusLine()
-
+" See `help statusline` for available fields
 function! CITguyStatusLine()
   " reset
   set stl=
 
   " -- Left-aligned Items
   set stl+=%{&ff}\ %{&fenc} " fileinfo: {format} {encoding}
-  set stl+=\ %f             " Full path to file in buffer
+  set stl+=\ %<%f           " path to file in buffer (truncate start)
 
   " -- Alignment Separator
   set stl+=%=
 
   " -- Right-aligned Items
-  set stl+=\ %r%w%m         " flags: {readonly} {preview}
-  set stl+=\ %1.7c:%1.7l "/%L " col:line/lines
-  set stl+=\ %p%%           " line %
-  set stl+=\ %Y\ \b%1.3n    " {filetype} b{buffernum}
+  set stl+=\ %r%w%m       " flags: {readonly} {preview}
+  set stl+=\ 0x%B         " {code} of char under cursor
+  set stl+=\ %1.7c:%1.7l  " {col}:{line}
+  "set stl+=/%L            " /{lines}
+  set stl+=\ %p%%         " {line %}%
+  set stl+=\ %Y\ \b%1.3n  " {filetype} b{buffernum}
 endfunction
 
 " TODO: is this needed?
@@ -224,3 +226,4 @@ endfunction
 " NERDTree Configuration
 let NERDTreeCascadeOpenSingleChildDir=1 " expand lone child when expanding parent
 let NERDTreeCascadeSingleChildDir=0     " disable collapse of single-child directories
+
