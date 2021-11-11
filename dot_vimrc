@@ -4,7 +4,7 @@ set nocompatible " Reset to Vim defaults (not Vi)
 " Flags (boolean options)
 " --------------------------------------------------------------------------------
 set noautoindent " Use smartindent instead [see `smartindent`]
-set noautoread " autoread files if they change outside of Vim
+set   autoread " autoread files if they change outside of Vim
 set nocursorcolumn " [cuc] toggle display of  cursor column
 set   cursorline " Show Cursor Line
 set noerrorbells
@@ -35,7 +35,6 @@ set   wildmenu
 set backspace=indent,eol,start
 
 set history=50  " keep 50 lines of command line history
-set incsearch   " do incremental searching
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -46,7 +45,7 @@ endif
 " Also switch on highlighting the last used search pattern.
 if &t_Co > 2 || has("gui_running")
   syntax on
-  set hlsearch
+  "set hlsearch
 endif
 
 " Only do this part when compiled with support for autocommands.
@@ -113,7 +112,6 @@ set nowrap " don't wrap lines
 set title
 set mh " hide the mouse when typing text
 set mouse-=a " disable visual selection mode for mouse"
-set cul " Show Cursor Line
 set mm=10240 " 10MB limit (per file) memory usage
 set mmt=2000000 " No limit on total memory usage
 "set ssop=folds,help,tabpages,unix
@@ -125,10 +123,6 @@ set ttyfast " (use locally) indicates a fast terminal connection
 " Useful for files with very long lines
 "set synmaxcol=120
 
-" Seems to help when trying to edit file with deep folds
-set lazyredraw
-
-set noerrorbells
 set wildignore=*.swp,*.bak,*.pyc,*.class
 
 
@@ -137,7 +131,6 @@ set foldmethod=indent " fold based on indent
 set foldcolumn=0 " No foldcolumn
 set foldnestmax=10 " deepest fold is 10 levels
 set foldlevel=10 " keep ALL folds open on file open (must be GTE than foldnestmax)
-set foldenable " Enable Folding
 
 
 " ===========================================================
@@ -152,7 +145,7 @@ map <C-K> <C-W><Up>
 map <C-L> <C-W><Right>
 
 nmap <Leader>n :NERDTreeToggle<CR>
-" Turn off K binding (disable keyword lookup under cursor)
+" Turn off K binding (disable keyword lookup under the cursor)
 noremap K <NOP>
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -161,9 +154,6 @@ map Q gq
 inoremap <C-U> <C-G>u<C-U>
 " Disable Highlighting
 noremap <C-\> :nohls<CR>
-
-
-colorscheme tir_black " not installed by default
 
 
 " This is so snipMate works
@@ -176,6 +166,10 @@ colorscheme tir_black " not installed by default
 " Dark Red for columns 101+
 "highlight OverLengthDanger ctermfg=DarkRed guibg=#592929
 "2match OverLengthDanger /\%>100v.\+/
+
+colorscheme tir_black " included with citguy-vim
+
+
 
 " [default value] Can't see info at start of line with lengthy buffer path present
 "                 Pushes info out of view to the left.
@@ -211,28 +205,7 @@ function CITguyStatusLine(...)
   set stl+=\ \b%1.3n      " b{buffernum}
 endfunction
 
-" TODO: is this needed?
-"" vim-ruby-xmpfilter key mapping
-"" Gvim
-"nmap <buffer> <M-r> <Plug>(xmpfilter-run)
-"xmap <buffer> <M-r> <Plug>(xmpfilter-run)
-"imap <buffer> <M-r> <Plug>(xmpfilter-run)
-"
-"nmap <buffer> <M-m> <Plug>(xmpfilter-mark)
-"xmap <buffer> <M-m> <Plug>(xmpfilter-mark)
-"imap <buffer> <M-m> <Plug>(xmpfilter-mark)
-"
-"" Terminal
-"nmap <buffer> <F5> <Plug>(xmpfilter-run)
-"xmap <buffer> <F5> <Plug>(xmpfilter-run)
-"imap <buffer> <F5> <Plug>(xmpfilter-run)
-"
-"nmap <buffer> <F4> <Plug>(xmpfilter-mark)
-"xmap <buffer> <F4> <Plug>(xmpfilter-mark)
-"imap <buffer> <F4> <Plug>(xmpfilter-mark)
-
-
-" NERDTree Configuration
-let NERDTreeCascadeOpenSingleChildDir=1 " expand lone child when expanding parent
-let NERDTreeCascadeSingleChildDir=0     " disable collapse of single-child directories
-
+" TODO: move to CITguy/citguy-vim (vim pack)
+" NERDTree Config
+let g:NERDTreeCascadeOpenSingleChildDir = 1 " expand lone child when expanding parent
+let g:NERDTreeCascadeSingleChildDir = 0 " dirs on separate lines

@@ -1,0 +1,99 @@
+#!/bin/bash
+
+TRUNK="$1"
+
+if [[ -z "$TRUNK" ]]
+then
+  echo "no trunk provided"
+  exit 1
+fi
+
+
+function get_local_stale_branches() {
+  # get all branches that have been merged into $TRUNK
+  git branch --merged $TRUNK | \
+    # trim leading whitespace from each line of output
+    sed 's/^ *//' | \
+    # only include branches that begin with numbers (e.g., `1234-*`)
+    grep '^\d\+-'
+
+    ## exclude the local trunk branch and `*upstream` branches
+    #grep -v "${TRUNK}$" | grep -v 'upstream$' | \
+    ## exclude `saved/*` local branches
+    #grep -v "^saved/"
+}
+
+function get_remote_stale_branches() {
+  local prefix='origin\/'
+
+  # get all remote branches that have been merged into $TRUNK
+  git branch -r --merged $TRUNK | \
+    # trim leading whitespace from each line of output
+    sed 's/^ *//' | \
+    # include only `origin/*` prefixed branches
+    grep "^${prefix}" | \
+    # remove prefix from each line of output
+    sed "s/^${prefix}//" | \
+    # exclude remote trunk branch
+    grep -v "^${TRUNK}$"
+}
+
+function run_prune() {
+  echo -e "\nPrune branches merged with ${TRUNK}"
+  read -p "Continue (y/n)? "
+  [ "$REPLY" != "y" ] && exit
+
+  echo -n "  Pruning..."
+
+  # TODO: needed?
+  #git checkout -q $TRUNK
+  #if [[ $? -ne 0 ]]
+  #then
+  #  echo -e "\nFailed: could not checkout trunk: ${TRUNK}"
+  #  exit 1
+  #fi
+
+  # Prune list of remote branch refs
+  git fetch origin
+  git remote prune origin
+
+  # TODO: needed?
+  # quietly return to initial branch
+  #git checkout -q -
+  echo "done"
+}
+
+function run_local_branch_cleanup() {
+  # nothing to do
+  [[ -z "$(get_local_stale_branches)" ]] && return 0
+
+  echo -e "\nThe following local branches are stale and can be deleted:"
+  get_local_stale_branches
+
+  read -p "Continue (y/n)? "
+  [[ "$REPLY" != "y" ]] && return
+
+  echo -n "  Cleaning local branches..."
+  get_local_stale_branches | xargs git branch -d
+  echo "done"
+}
+
+function run_remote_branch_cleanup() {
+  # nothing to do
+  [[ -z "$(get_remote_stale_branches)" ]] && return 0
+
+  echo -e "\nThe following remote branches are stale and can be removed:"
+  get_remote_stale_branches
+
+  read -p "Continue (y/n)? "
+  [ "$REPLY" != "y" ] && exit
+
+  echo -n "  Cleaning remote branches..."
+  get_remote_stale_branches | xargs -I% git push origin :%
+  echo "done"
+}
+
+
+run_prune
+run_local_branch_cleanup
+run_remote_branch_cleanup

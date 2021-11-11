@@ -6,28 +6,20 @@
 
 
 ########################################
-# New types
-########################################
---type-set=haml=.haml
---type-set=swp=.swp
-
-
-########################################
-# New extensions for existing types
+# Additional types and extensions
 ########################################
 --type-add=css:ext:less,scss
---type-add=html:ext:njk
+--type-add=haml:ext:haml
+--type-add=html:ext:njk,vue
 --type-add=js:ext:cjs,mjs
 --type-add=json:ext:json5
---type-add=ruby:ext:ru,haml,feature,lock
+--type-add=markdown:ext:md,markdown
 --type-add=xml:ext:rxml
 
 
 ########################################
 # Ignored Directories
 ########################################
-#--ignore-directory=.idea
-#--ignore-directory=is:Library
 --ignore-directory=is:bower_components
 --ignore-directory=is:dist
 
@@ -35,7 +27,8 @@
 ########################################
 # Ignored Files
 ########################################
---ignore-file=match:/vendor[.].*$/
 #--ignore-file=is:ack-results.txt
+--ignore-file=is:package-lock.json
+--ignore-file=match:/vendor[.].*$/
 --ignore-file=match:/[.]chunk[.](js|css)$/
 --ignore-file=match:/[._].*[.]sw.$/

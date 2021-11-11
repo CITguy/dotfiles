@@ -25,12 +25,12 @@ alias :dotfiles="cd $CHEZMOI_PATH"
 # nodenv config
 if which nodenv > /dev/null
 then
+  # will add $HOME/.nodenv/shims to your PATH
   eval "$(nodenv init -)";
 fi
 
 # rbenv config
 if which rbenv > /dev/null
 then
-  #export PATH=$HOME/.rbenv/bin:$PATH
   eval "$(rbenv init -)"
 fi
