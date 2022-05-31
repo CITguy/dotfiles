@@ -20,8 +20,19 @@
 ########################################
 # Ignored Directories
 ########################################
+# dot/tmp/cache directories
+--ignore-directory=match:\..+
+--ignore-directory=match:\_.+
+# named directories
 --ignore-directory=is:bower_components
 --ignore-directory=is:dist
+--ignore-directory=is:temp
+--ignore-directory=is:build
+
+# Android Studio build artifacts
+--ignore-directory=is:android/app/debug
+--ignore-directory=is:android/app/profile
+--ignore-directory=is:android/app/release
 
 
 ########################################
