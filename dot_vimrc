@@ -174,36 +174,6 @@ colorscheme tir_black " included with citguy-vim
 " [default value] Can't see info at start of line with lengthy buffer path present
 "                 Pushes info out of view to the left.
 "set statusline=%{&ff}\ %{&fenc}\ \b%1.3n\ %Y\ %r\ %W\ %m\ %F%=\ %1.7c\ %1.7l/%L\ %p%%
-set stl=%!CITguyStatusLine()
-" a:0 = total # of args
-" a:N = argument #
-" a:000 = list of all args
-function CITguyStatusLine(...)
-  let showmore = get(a:, 1, 0)
-
-  " See `help statusline` for available fields
-  " reset
-  set stl=
-
-  " -- Left-aligned Items
-  if showmore
-    set stl+=0x%02.B            " {char code}
-    set stl+=\ %{&ff}:%{&fenc}  " {format}:{encoding}
-    set stl+=\ %Y\              " {filetype}
-  endif
-  set stl+=%<%f\ %r          " {buffer file path} [RO]
-
-  " -- Alignment Separator
-  set stl+=%=
-
-  " -- Right-aligned Items
-  set stl+=%m              " [modified]
-  if showmore
-    set stl+=\ %1.3p%%       " {line %}%
-  endif
-  set stl+=\ %1.5l:%-2.3v  " {line}:{col}
-  set stl+=\ \b%1.3n      " b{buffernum}
-endfunction
 
 " TODO: move to CITguy/citguy-vim (vim pack)
 " NERDTree Config
