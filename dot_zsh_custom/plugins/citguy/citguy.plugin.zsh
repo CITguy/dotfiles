@@ -1,3 +1,5 @@
+## NOTE: depends on the `brew` plugin, for homebrew binaries to be available
+
 #========================================#
 # ENVIRONMENT VARIABLES
 #========================================#
