@@ -28,11 +28,18 @@
 --ignore-directory=is:dist
 --ignore-directory=is:temp
 --ignore-directory=is:build
+--ignore-directory=is:lcov-report
 
 # Android Studio build artifacts
 --ignore-directory=is:android/app/debug
 --ignore-directory=is:android/app/profile
 --ignore-directory=is:android/app/release
+
+
+########################################
+# NOT Ignored Directories
+########################################
+--noignore-directory=is:__tests__
 
 
 ########################################
