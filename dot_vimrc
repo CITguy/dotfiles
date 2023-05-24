@@ -174,6 +174,3 @@ colorscheme tir_black " included with citguy-vim
 " [default value] Can't see info at start of line with lengthy buffer path present
 "                 Pushes info out of view to the left.
 "set statusline=%{&ff}\ %{&fenc}\ \b%1.3n\ %Y\ %r\ %W\ %m\ %F%=\ %1.7c\ %1.7l/%L\ %p%%
-
-
-" testing 123
